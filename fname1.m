@@ -22,7 +22,6 @@ n=-25:25;
 % represents the disctrete-time sequences with 6 channels.
 x=[x1' x2' x3' x4' x5' x6'];
 %% Task 2
-
 % Define the time variable and the original signal
 t = -0.5:0.001:0.5;
 st = cos(40*pi*t).*cos(2*pi*t);
@@ -51,7 +50,7 @@ figure(2);
 subplot(3,1,1);
 plot(t, st, 'r'); hold on;
 stem(t1, s1, 'b');
-title(['Sampled Rate at Fs1 = ', num2str(Fs1)]);
+title(['Sampled Rate at Fs1 = ', num2str(Fs1), ' Hz']);
 xlabel('Time (s)');
 ylabel('Amplitude');
 grid on; hold off;
@@ -60,7 +59,7 @@ grid on; hold off;
 subplot(3,1,2);
 plot(t, st, 'r'); hold on;
 stem(t2, s2, 'b');
-title(['Sampled Rate at Fs2 = ', num2str(Fs2)]);
+title(['Sampled Rate at Fs2 = ', num2str(Fs2), ' Hz']);
 xlabel('Time (s)');
 ylabel('Amplitude');
 grid on; hold off;
@@ -69,14 +68,13 @@ grid on; hold off;
 subplot(3,1,3);
 plot(t, st, 'r'); hold on;
 stem(t3, s3, 'b');
-title(['Sampled Rate at Fs3 = ', num2str(Fs3)]);
+title(['Sampled Rate at Fs3 = ', num2str(Fs3), ' Hz']);
 xlabel('Time (s)');
 ylabel('Amplitude');
 grid on; hold off;
 
 % Adjust the layout for better readability
 sgtitle('Task 2');
-
 
 %% Task 3: Quantization of audio into n number of bits
 
