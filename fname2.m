@@ -3,8 +3,8 @@ function [b1,b2,b3,b4,a1,a2,a3,a4,x,y,t,h1,h2,h3,h4,g1,g2,g3,g4,Same,s1,s2,s,so,
 % Electronics and Computer Engineering Department
 %
 % Course        : LBYCPA4
-% SECTION       :
-% Submitted by  :
+% SECTION       : EQ1
+% Submitted by  : Kenan Banal
 % Submitted to  : Dr. Edwin Sybingco
 %
 % Exercise 2    : Discrete-time Systems
@@ -69,15 +69,90 @@ t.FilterType(3)={'Bandpass Filter'};
 t.FilterType(4)={'Lowpass Filter'};
 
 %% Task 3
-% Place your code here to generate the impulse reponse h1,h2,h3, and h4
+n = 0:24; % Time vector for 0 ≤ n ≤ 24
+impulse = [1 zeros(1, 24)]; % Define impulse input
 
-% Place your code here to generate g1,g2,g3, and g4
+% Define filter coefficients for four filters
+b1 = [0.16, -0.48, 0.48, -0.16];
+a1 = [1, 0.13, 0.52, 0.3];
+% b.
+b2 = [0.634, 0, -0.634];
+a2 = [1, 0, -0.268];
+% c.
+b3 = [0.634, 0, 0.634];
+a3 = [1, 0, 0.268];
+% d.
+b4 = [1, -5, 10];
+a4 = [10, -5, 1];
 
-% Compare hi and gi for i = 1,2,3,4. Store the result in the variable Same
-% Same is a 1 x 4 vector. The values are either 1 (same) or 0 (not same)
+% Step 2: Compute the impulse response using the filter function
+h1 = filter(b1, a1, impulse);
+h2 = filter(b2, a2, impulse);
+h3 = filter(b3, a3, impulse);
+h4 = filter(b4, a4, impulse);
 
+% Step 3: Compute the impulse response using partial fraction expansion (residuez)
+[r1, p1, k1] = residuez(b1, a1);
+%g1
+g1 = zeros(1, 25);
+for i = 1:length(r1)
+    g1 = g1 + r1(i) * (p1(i) .^ n);
+end
+g1 = g1 + polyval(k1, n);
 
-% Place your code here to create the visualization of figure 2
+[r2, p2, k2] = residuez(b2, a2);
+%g2
+g2 = zeros(1, 25);
+for i = 1:length(r2)
+    g2 = g2 + r2(i) * (p2(i) .^ n);
+end
+g2 = g2 + polyval(k2, n);
+
+[r3, p3, k3] = residuez(b3, a3);
+%g3
+g3 = zeros(1, 25);
+for i = 1:length(r3)
+    g3 = g3 + r3(i) * (p3(i) .^ n);
+end
+g3 = g3 + polyval(k3, n);
+
+[r4, p4, k4] = residuez(b4, a4);
+%g4
+g4 = zeros(1, 25);
+for i = 1:length(r4)
+    g4 = g4 + r4(i) * (p4(i) .^ n);
+end
+g4 = g4 + polyval(k4, n);
+
+% Step 4: Compare the impulse responses
+Same = zeros(1, 4);
+Same(1) = isequal(h1, g1);
+Same(2) = isequal(h2, g2);
+Same(3) = isequal(h3, g3);
+Same(4) = isequal(h4, g4);
+
+% Step 5: Visualize the impulse responses
+figure(2);
+
+subplot(4,2,1); stem(n, h1, 'LineWidth', 1); title('h1[n]'); 
+xlabel('n'); ylabel('Impulse Response');
+subplot(4,2,2); stem(n, g1, 'LineWidth', 1); title('g1[n]');
+xlabel('n'); ylabel('Impulse Response');
+
+subplot(4,2,3); stem(n, h2, 'LineWidth', 1); title('h2[n]');
+xlabel('n'); ylabel('Impulse Response');
+subplot(4,2,4); stem(n, g2, 'LineWidth', 1); title('g2[n]');
+xlabel('n'); ylabel('Impulse Response');
+
+subplot(4,2,5); stem(n, h3, 'LineWidth', 1); title('h3[n]');
+xlabel('n'); ylabel('Impulse Response');
+subplot(4,2,6); stem(n, g3, 'LineWidth', 1); title('g3[n]');
+xlabel('n'); ylabel('Impulse Response');
+
+subplot(4,2,7); stem(n, h4, 'LineWidth', 1); title('h4[n]');
+xlabel('n'); ylabel('Impulse Response');
+subplot(4,2,8); stem(n, g4, 'LineWidth', 1); title('g4[n]');
+xlabel('n'); ylabel('Impulse Response');
 
 %% Task 4
 n1 = 0:149;
@@ -147,7 +222,7 @@ I2 = uint8(filter2(h(:,:,2), I, 'same'));
 I3 = uint8(filter2(h(:,:,3), I, 'same'));
 
 % Place your code here to create the visualization of figure 4.
-figure(4)
+figure(3)
 subplot(2, 2, 1);
 imshow(I);
 title('Original Image');
