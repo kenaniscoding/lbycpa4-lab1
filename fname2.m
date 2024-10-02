@@ -63,10 +63,10 @@ for i = 1:5
 end
 % Complete the code below to fillout the table
 t=table([1;2;3;4],'VariableName',{'FilterNumber'});
-t.FilterType(1)={'Bandpass Filter'};
-t.FilterType(2)={'Bandstop Filter'};
-t.FilterType(3)={'Bandpass Filter'};
-t.FilterType(4)={'Lowpass Filter'};
+t.FilterType(1)={'Highpass Filter'};
+t.FilterType(2)={'Bandpass Filter'};
+t.FilterType(3)={'Bandstop Filter'};
+t.FilterType(4)={'Allpass Filter'};
 
 %% Task 3
 n = 0:24; % Time vector for 0 ≤ n ≤ 24
@@ -85,13 +85,13 @@ a3 = [1, 0, 0.268];
 b4 = [1, -5, 10];
 a4 = [10, -5, 1];
 
-% Step 2: Compute the impulse response using the filter function
+
 h1 = filter(b1, a1, impulse);
 h2 = filter(b2, a2, impulse);
 h3 = filter(b3, a3, impulse);
 h4 = filter(b4, a4, impulse);
 
-% Step 3: Compute the impulse response using partial fraction expansion (residuez)
+
 [r1, p1, k1] = residuez(b1, a1);
 %g1
 g1 = zeros(1, 25);
@@ -124,35 +124,61 @@ for i = 1:length(r4)
 end
 g4 = g4 + polyval(k4, n);
 
-% Step 4: Compare the impulse responses
+
 Same = zeros(1, 4);
 Same(1) = isequal(h1, g1);
 Same(2) = isequal(h2, g2);
 Same(3) = isequal(h3, g3);
 Same(4) = isequal(h4, g4);
 
-% Step 5: Visualize the impulse responses
-figure(2);
 
-subplot(4,2,1); stem(n, h1, 'LineWidth', 1); title('h1[n]'); 
-xlabel('n'); ylabel('Impulse Response');
-subplot(4,2,2); stem(n, g1, 'LineWidth', 1); title('g1[n]');
-xlabel('n'); ylabel('Impulse Response');
+subplot(4, 2, 1); 
+plot(n, h1, 'r', 'LineWidth', 1); 
+title('h1[n]'); 
+xlabel('n'); 
+ylabel('Impulse Response');
 
-subplot(4,2,3); stem(n, h2, 'LineWidth', 1); title('h2[n]');
-xlabel('n'); ylabel('Impulse Response');
-subplot(4,2,4); stem(n, g2, 'LineWidth', 1); title('g2[n]');
-xlabel('n'); ylabel('Impulse Response');
+subplot(4, 2, 2); 
+plot(n, g1, 'b', 'LineWidth', 1); 
+title('g1[n]'); 
+xlabel('n'); 
+ylabel('Impulse Response');
 
-subplot(4,2,5); stem(n, h3, 'LineWidth', 1); title('h3[n]');
-xlabel('n'); ylabel('Impulse Response');
-subplot(4,2,6); stem(n, g3, 'LineWidth', 1); title('g3[n]');
-xlabel('n'); ylabel('Impulse Response');
+subplot(4, 2, 3); 
+plot(n, h2, 'r', 'LineWidth', 1); 
+title('h2[n]'); 
+xlabel('n'); 
+ylabel('Impulse Response');
 
-subplot(4,2,7); stem(n, h4, 'LineWidth', 1); title('h4[n]');
-xlabel('n'); ylabel('Impulse Response');
-subplot(4,2,8); stem(n, g4, 'LineWidth', 1); title('g4[n]');
-xlabel('n'); ylabel('Impulse Response');
+subplot(4, 2, 4); 
+plot(n, g2, 'b', 'LineWidth', 1); 
+title('g2[n]'); 
+xlabel('n'); 
+ylabel('Impulse Response');
+
+subplot(4, 2, 5); 
+plot(n, h3, 'r', 'LineWidth', 1); 
+title('h3[n]'); 
+xlabel('n'); 
+ylabel('Impulse Response');
+
+subplot(4, 2, 6); 
+plot(n, g3, 'b', 'LineWidth', 1); 
+title('g3[n]'); 
+xlabel('n'); 
+ylabel('Impulse Response');
+
+subplot(4, 2, 7); 
+plot(n, h4, 'r', 'LineWidth', 1); 
+title('h4[n]'); 
+xlabel('n'); 
+ylabel('Impulse Response');
+
+subplot(4, 2, 8); 
+plot(n, g4, 'b', 'LineWidth', 1); 
+title('g4[n]'); 
+xlabel('n'); 
+ylabel('Impulse Response');
 
 %% Task 4
 n1 = 0:149;
@@ -222,7 +248,7 @@ I2 = uint8(filter2(h(:,:,2), I, 'same'));
 I3 = uint8(filter2(h(:,:,3), I, 'same'));
 
 % Place your code here to create the visualization of figure 4.
-figure(3)
+figure(4)
 subplot(2, 2, 1);
 imshow(I);
 title('Original Image');
