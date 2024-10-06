@@ -1,6 +1,7 @@
 # ALL LABORATORY ACTIVITIES
 # LAB 1
 fname1_1.m
+the second task 3 image code is at idkWhat.m
 ## Task 2
 ![image](https://github.com/user-attachments/assets/683fd663-535e-4ab0-8ae9-71cf1c855f76)
 ## Task 3
