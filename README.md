@@ -1,4 +1,6 @@
 # ALL LABORATORY ACTIVITIES
+# LAB 3
+I'm 90% sure that the MSE graph is incorrect A G A I N
 # LAB 1
 fname1_1.m
 the second task 3 image code is at idkWhat.m
