@@ -47,13 +47,14 @@ y(:, :, 3) = filter(b3, a3, x);
 y(:, :, 4) = filter(b4, a4, x);
 
 % Place your code here to create the visualization of figure 1
+
 figure(1);
 for i = 1:5
     for j = 1:4
         subplot(5, 4, (i-1)*4 + j); % position 
-        plot(n, x(:, i), 'b--', 'DisplayName', 'Input');  % Plot input
+        stem(n, x(:, i), 'b--', 'DisplayName', 'Input');  % Plot input
         hold on;
-        plot(n, y(:, i, j), 'r', 'DisplayName', 'Output');  % Plot output
+        stem(n, y(:, i, j), 'r', 'DisplayName', 'Output');  % Plot output
         hold off;
         title(['Sequence ', num2str(i), ' Filter ', num2str(j)]);
         xlabel('n');
@@ -68,168 +69,140 @@ t.FilterType(2)={'Bandpass Filter'};
 t.FilterType(3)={'Bandstop Filter'};
 t.FilterType(4)={'Allpass Filter'};
 
-%% Task 3
+%% Task 3: Impulse Response Plots
 n = 0:24; % Time vector for 0 ≤ n ≤ 24
 impulse = [1 zeros(1, 24)]; % Define impulse input
-
-% Define filter coefficients for four filters
-b1 = [0.16, -0.48, 0.48, -0.16];
-a1 = [1, 0.13, 0.52, 0.3];
-% b.
-b2 = [0.634, 0, -0.634];
-a2 = [1, 0, -0.268];
-% c.
-b3 = [0.634, 0, 0.634];
-a3 = [1, 0, 0.268];
-% d.
-b4 = [1, -5, 10];
-a4 = [10, -5, 1];
-
-
+% Compute impulse response using filter for 0 <= n <= 24
 h1 = filter(b1, a1, impulse);
 h2 = filter(b2, a2, impulse);
 h3 = filter(b3, a3, impulse);
 h4 = filter(b4, a4, impulse);
 
-
+% Using residuez for partial fraction expansion and impulse response
+% Compute impulse responses using partial fraction expansion (residuez)
 [r1, p1, k1] = residuez(b1, a1);
-%g1
-g1 = zeros(1, 25);
-for i = 1:length(r1)
-    g1 = g1 + r1(i) * (p1(i) .^ n);
-end
-g1 = g1 + polyval(k1, n);
+g1 = impz(r1, p1, k1, 25);
 
 [r2, p2, k2] = residuez(b2, a2);
-%g2
-g2 = zeros(1, 25);
-for i = 1:length(r2)
-    g2 = g2 + r2(i) * (p2(i) .^ n);
-end
-g2 = g2 + polyval(k2, n);
+g2 = impz(r2, p2, k2, 25);
 
 [r3, p3, k3] = residuez(b3, a3);
-%g3
-g3 = zeros(1, 25);
-for i = 1:length(r3)
-    g3 = g3 + r3(i) * (p3(i) .^ n);
-end
-g3 = g3 + polyval(k3, n);
+g3 = impz(r3, p3, k3, 25);
 
 [r4, p4, k4] = residuez(b4, a4);
-%g4
-g4 = zeros(1, 25);
-for i = 1:length(r4)
-    g4 = g4 + r4(i) * (p4(i) .^ n);
-end
-g4 = g4 + polyval(k4, n);
+g4 = impz(r4, p4, k4, 25);
 
+g1 = impz(b1, a1, n);
+g2 = impz(b2, a2, n);
+g3 = impz(b3, a3, n);
+g4 = impz(b4, a4, n);
 
-Same = zeros(1, 4);
-Same(1) = isequal(h1, g1);
-Same(2) = isequal(h2, g2);
-Same(3) = isequal(h3, g3);
-Same(4) = isequal(h4, g4);
+% Compare impulse responses h[n] and g[n]
+Same = [isequal(h1, g1), isequal(h2, g2), isequal(h3, g3), isequal(h4, g4)];
 
-
+% Plot the impulse responses
+figure(2);
 subplot(4, 2, 1); 
-plot(n, h1, 'r', 'LineWidth', 1); 
-title('h1[n]'); 
+stem(n, h1, 'r'); 
+title('h1[n] (Impulse Response)'); 
 xlabel('n'); 
-ylabel('Impulse Response');
+ylabel('Amplitude');
 
 subplot(4, 2, 2); 
-plot(n, g1, 'b', 'LineWidth', 1); 
-title('g1[n]'); 
+stem(n, g1, 'b'); 
+title('g1[n] (Partial Fraction Expansion)'); 
 xlabel('n'); 
-ylabel('Impulse Response');
+ylabel('Amplitude');
 
 subplot(4, 2, 3); 
-plot(n, h2, 'r', 'LineWidth', 1); 
-title('h2[n]'); 
+stem(n, h2, 'r'); 
+title('h2[n] (Impulse Response)'); 
 xlabel('n'); 
-ylabel('Impulse Response');
+ylabel('Amplitude');
 
 subplot(4, 2, 4); 
-plot(n, g2, 'b', 'LineWidth', 1); 
-title('g2[n]'); 
+stem(n, g2, 'b'); 
+title('g2[n] (Partial Fraction Expansion)'); 
 xlabel('n'); 
-ylabel('Impulse Response');
+ylabel('Amplitude');
 
 subplot(4, 2, 5); 
-plot(n, h3, 'r', 'LineWidth', 1); 
-title('h3[n]'); 
+stem(n, h3, 'r'); 
+title('h3[n] (Impulse Response)'); 
 xlabel('n'); 
-ylabel('Impulse Response');
+ylabel('Amplitude');
 
 subplot(4, 2, 6); 
-plot(n, g3, 'b', 'LineWidth', 1); 
-title('g3[n]'); 
+stem(n, g3, 'b'); 
+title('g3[n] (Partial Fraction Expansion)'); 
 xlabel('n'); 
-ylabel('Impulse Response');
+ylabel('Amplitude');
 
 subplot(4, 2, 7); 
-plot(n, h4, 'r', 'LineWidth', 1); 
-title('h4[n]'); 
+stem(n, h4, 'r'); 
+title('h4[n] (Impulse Response)'); 
 xlabel('n'); 
-ylabel('Impulse Response');
+ylabel('Amplitude');
 
 subplot(4, 2, 8); 
-plot(n, g4, 'b', 'LineWidth', 1); 
-title('g4[n]'); 
+stem(n, g4, 'b'); 
+title('g4[n] (Partial Fraction Expansion)'); 
 xlabel('n'); 
-ylabel('Impulse Response');
-
+ylabel('Amplitude');
 %% Task 4
 n1 = 0:149;
-% Place your code here to generate s1, s2, and s
-s1=cos(n1*pi/10);
-s2=cos(n1*pi/4);
-s=s1+s2;
-% place your code here define the filter coefficients of the Notch filter
-b = 0.9543 * [1, -2*cos(pi/4), 1];
-a = [1, -1.9*cos(pi/4), 0.9025];
-% Place your code here to determine the output of the notch filter and
-% store it in so
-so = filter(b, a, s);  % Filtered output so[n1]
-figure(3);
-% Plot s1[n1] and so[n1]
+% Generate s1, s2, and s
+s1 = cos(n1 * pi / 10);
+s2 = cos(n1 * pi / 4);
+s = s1 + s2;
 
-% Answer the question: Which of the sequences is rejected by the Notch
-% filter (s1 or s2)? Store your response as a string using the variable
-% Rejected
+% Define the filter coefficients of the Notch filter
+b = 0.9543 * [1, -2 * cos(pi / 4), 1];
+a = [1, -1.9 * cos(pi / 4), 0.9025];
+
+% Determine the output of the notch filter and store it in so
+so = filter(b, a, s);  % Filtered output so[n1]
+
+% Answer the question: Which of the sequences is rejected by the Notch filter (s1 or s2)?
 Rejected = 's2 is rejected by the notch filter';
 disp(Rejected);
-% Place your code here to create the visualization of figure 3.
+
+% Create the visualization with stem plots
+figure(3);
+
+% Stem plot for s1[n1] and so[n1]
 subplot(3, 1, 1);
-plot(n1, s1, 'b--', 'DisplayName', 's_1[n_1]');
+stem(n1, s1, 'b--', 'DisplayName', 's_1[n_1]');
 hold on;
-plot(n1, so, 'r', 'DisplayName', 's_o[n_1]');
+stem(n1, so, 'r', 'DisplayName', 's_o[n_1]');
 hold off;
 title('s_1[n_1] overlayed with s_o[n_1]');
 xlabel('n_1');
 ylabel('Amplitude');
 legend('show');
-% Plot s2[n1] and so[n1]
+
+% Stem plot for s2[n1] and so[n1]
 subplot(3, 1, 2);
-plot(n1, s2, 'b--', 'DisplayName', 's_2[n_1]');
+stem(n1, s2, 'b--', 'DisplayName', 's_2[n_1]');
 hold on;
-plot(n1, so, 'r', 'DisplayName', 's_o[n_1]');
+stem(n1, so, 'r', 'DisplayName', 's_o[n_1]');
 hold off;
 title('s_2[n_1] overlayed with s_o[n_1]');
 xlabel('n_1');
 ylabel('Amplitude');
 legend('show');
-% Plot s[n1] and so[n1]
+
+% Stem plot for s[n1] and so[n1]
 subplot(3, 1, 3);
-plot(n1, s, 'b--', 'DisplayName', 's[n_1]');
+stem(n1, s, 'b--', 'DisplayName', 's[n_1]');
 hold on;
-plot(n1, so, 'r', 'DisplayName', 's_o[n_1]');
+stem(n1, so, 'r', 'DisplayName', 's_o[n_1]');
 hold off;
 title('s[n_1] overlayed with s_o[n_1]');
 xlabel('n_1');
 ylabel('Amplitude');
 legend('show');
+
 %% Task 5
 % Retrieve lena_gray.tiff
 I = imread("lena_gray.tiff");
