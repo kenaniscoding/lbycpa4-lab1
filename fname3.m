@@ -246,51 +246,39 @@ end
 G = 0.0168;
 b = G * [1 0 -2 0 1]; % Numerator coefficients
 a = [1 -2.533 3.2089 -2.0520 0.6561]; % Denominator coefficients
-N_vals = [8, 16, 32, 64]; % Different values of N
-y = cell(1, 4); % Cell array to store impulse responses for each N
-Y = cell(1, 4); % Cell array to store DTFT for each N
-Yk = cell(1, 4); % Cell array to store DFT for each N
-MSE = zeros(1, 4); % Array to store MSE for each N
+N_vals = [8, 16, 32, 64]; % Different values of N for original MSE calculation
+dense_N_vals = 8:1:64; % Dense range for smoother MSE plot
+MSE = zeros(1, length(N_vals)); % Array to store MSE for original N values
+MSE_dense = zeros(1, length(dense_N_vals)); % Array to store MSE for dense N values
 
-% Compute the impulse response and frequency responses
+% Compute MSE for each original N value
 for i = 1:length(N_vals)
     N = N_vals(i);
     
     % Compute impulse response using filter (impulse input)
     impulse = [1 zeros(1, N-1)]; % Impulse input of length N
-    y{i} = filter(b, a, impulse); % Impulse response
+    y = filter(b, a, impulse); % Impulse response
     
     % Compute DTFT using freqz with 1024 points
     [H, w] = freqz(b, a, 1024);
-    Y{i} = H; % Store DTFT
     
     % Compute DFT using fft
-    Yk{i} = fft(y{i}, 1024); % Zero-pad to 1024 for comparison with DTFT
+    Yk = fft(y, 1024); % Zero-pad to 1024 for comparison with DTFT
     
     % Interpolate DFT to match the frequency points of DTFT
-    Yk_interp = interp1(linspace(0, pi, N), abs(Yk{i}(1:N)), w(1:N), 'linear', 'extrap');
+    Yk_interp = interp1(linspace(0, pi, N), abs(Yk(1:N)), w(1:N), 'linear', 'extrap');
     
     % Compute MSE between DTFT and DFT
-    MSE(i) = mean(abs(abs(Y{i}(1:N)) - Yk_interp).^2); % Mean square error
+    MSE(i) = mean(abs(abs(H(1:N)) - Yk_interp).^2); % Mean square error
 end
 
-% Visualization (Figure 6) - DTFT overlaying DFT for different N
-figure('Name','6','Position', [100, 100, 1200, 800]);
-for i = 1:length(N_vals)
-    subplot(4, 1, i);
-    plot(w/pi, abs(Y{i})); hold on;
-    stem(w(1:1024/N_vals(i):1024)/pi, abs(Yk{i}(1:1024/N_vals(i):1024)), 'r'); % Overlay DFT points
-    title(['DTFT and DFT overlay for N = ' num2str(N_vals(i))]);
-    xlabel('Normalized Frequency (\times\pi rad/sample)');
-    ylabel('Magnitude');
-    legend('DTFT', 'DFT');
-    grid on;
-end
+% Interpolate the MSE for smoother plot
+MSE_dense_interp = interp1(N_vals, MSE, dense_N_vals, 'spline');
 
 % Visualization (Figure 7) - Mean Square Error vs N
 figure('Name','7','Position', [100, 100, 1200, 800]);
-plot(N_vals, MSE, '-o');
-title('Mean Square Error vs N');
+plot(dense_N_vals, MSE_dense_interp);
+title('Mean Square Error vs N (Smoothed)');
 xlabel('N');
 ylabel('MSE');
 grid on;
