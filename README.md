@@ -1,4 +1,7 @@
 # ALL LABORATORY ACTIVITIES
+# LAB 4
+https://docs.google.com/document/d/1BcPfloXkkX1uNyhWEZEZmUFwVNjz0ghydJsh4-Aa1fU/edit?usp=sharing
+
 # LAB 3
 I'm 90% sure that the MSE graph is incorrect A G A I N
 # LAB 1
