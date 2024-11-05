@@ -104,7 +104,7 @@ for i = 1:5
 end
 name= ["boxcar" "hanning" "hamming" "blackman" "kaiser"];
 % Plot Figure 3: Impulse response of the five filters
-figure;
+figure('Position', [100, 100, 1200, 800]);
 for i = 1:5
     subplot(5, 1, i);
     stem(n, b1(i, :));
@@ -338,7 +338,7 @@ for k = 1:4
 end
 
 % Plot Figure 8: Spectrograms in a 3D scatter plot
-figure;
+figure('Position', [100, 100, 1200, 800]);
 titles = ["Original", "Lowpass", "Bandpass", "Highpass"];
 
 for k = 1:4
