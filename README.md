@@ -1,4 +1,6 @@
 # ALL LABORATORY ACTIVITIES
+# LAB 5
+https://docs.google.com/document/d/1BcPfloXkkX1uNyhWEZEZmUFwVNjz0ghydJsh4-Aa1fU/edit?usp=sharing
 # LAB 4
 https://docs.google.com/document/d/1BcPfloXkkX1uNyhWEZEZmUFwVNjz0ghydJsh4-Aa1fU/edit?usp=sharing
 
