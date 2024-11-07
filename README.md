@@ -2,7 +2,7 @@
 # LAB 5
 https://docs.google.com/document/d/1BcPfloXkkX1uNyhWEZEZmUFwVNjz0ghydJsh4-Aa1fU/edit?usp=sharing
 # LAB 4
-https://docs.google.com/document/d/1BcPfloXkkX1uNyhWEZEZmUFwVNjz0ghydJsh4-Aa1fU/edit?usp=sharing
+https://docs.google.com/document/d/1K40Kn18aPg_Tg6IDSf6WxM0plRFD7iaQ5dm1dNpADHs/edit?usp=sharing
 
 # LAB 3
 I'm 90% sure that the MSE graph is incorrect A G A I N
