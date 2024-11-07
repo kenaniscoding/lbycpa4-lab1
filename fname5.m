@@ -90,8 +90,18 @@ ylim([-4, 4]); % Set y-axis range from -4 to 4
 legend show;
 grid on;
 
-% Combined Group Delay Plot for Chebyshev Type 1 Filters
+
+% Plotting Impulse Response for each filter
 figure(3);
+for i = 1:5
+    subplot(5, 1, i);
+    stem(0:119, h1{i});
+    title(['Filter ', num2str(i), ' Impulse Response']);
+    xlabel('Samples'); ylabel('Amplitude');
+    grid on;
+end
+% Combined Group Delay Plot for Chebyshev Type 1 Filters
+figure(4);
 hold on;
 for i = 1:5
     plot(w, Grp1{i}, 'Color', colors(i,:), 'DisplayName', ['Filter ', num2str(i)]);
@@ -143,7 +153,7 @@ end
 colors = lines(5); % Generates a set of distinct colors for plotting
 
 % Combined Magnitude Spectrum Plot (Linear Scale)
-figure(4);
+figure(5);
 hold on;
 for i = 1:5
     plot(w, abs(H2{i}), 'Color', colors(i,:), 'DisplayName', ['Filter ', num2str(i)]);
@@ -157,7 +167,7 @@ legend show;
 grid on;
 
 % Combined Phase Spectrum Plot with y-axis range -4 to 4
-figure(5);
+figure(6);
 hold on;
 for i = 1:5
     plot(w, angle(H2{i}), 'Color', colors(i,:), 'DisplayName', ['Filter ', num2str(i)]);
@@ -171,7 +181,7 @@ legend show;
 grid on;
 
 % Combined Group Delay Plot for Elliptic Filters
-figure(6);
+figure(7);
 hold on;
 for i = 1:5
     plot(w, Grp2{i}, 'Color', colors(i,:), 'DisplayName', ['Filter ', num2str(i)]);
@@ -184,7 +194,7 @@ legend show;
 grid on;
 
 % Plotting Impulse Response for each filter
-figure(7);
+figure(8);
 for i = 1:5
     subplot(5, 1, i);
     stem(0:119, h2{i});
@@ -194,7 +204,7 @@ for i = 1:5
 end
 
 % Plotting Pole-Zero plot for each filter
-figure(8);
+figure(9);
 for i = 1:5
     subplot(3, 2, i);
     zplane(b2{i}, a2{i});
@@ -224,7 +234,7 @@ for i = 1:5
 end
 
 % Compute and plot the spectrogram of the original audio
-figure;
+figure(10);
 subplot(3, 2, 1);
 spectrogram(s, hanning(256), 128, 512, Fs, 'yaxis');
 title('Original Audio Spectrogram');
@@ -240,6 +250,7 @@ end
 
 % Optional: Save the spectrogram data for further analysis
 % save('FilteredAudioData.mat', 'y', 'S');
+
 
 
 
